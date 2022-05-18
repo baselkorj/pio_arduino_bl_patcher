@@ -9,8 +9,6 @@ def after_build(source, target, env):
     firmware = open(".pio/build/AVR_ISP_w_Bootloader/firmware.hex")
     firmware_contents = firmware.readlines()
 
-    firmware_contents.insert(0, bootloader_contents[0])
-
     bootloader_contents.pop(0)
     bootloader_contents.pop(len(bootloader_contents) - 1)
 
@@ -22,4 +20,3 @@ def after_build(source, target, env):
 
 
 env.AddPostAction("buildprog", after_build)
-print(env)
