@@ -51,13 +51,32 @@ def before_upload(source, target, env):
     full_record_block = (":" + record_block + "%0.2X" %
                          checksum + "\n").upper()
 
-    firmware_contents.pop(len(firmware_contents) - 35)
+    if firmware_contents[len(firmware_contents) - 35].startswith(":107DF000"):
+        firmware_contents.pop(len(firmware_contents) - 35)
+
     firmware_contents.insert(len(firmware_contents) - 34, full_record_block)
 
     firmware = open(".pio/build/uno/firmware.hex", "w")
     firmware.writelines(firmware_contents)
-    print("Success! Your Board ID is " + str(uuidOne))
+    print("Success! Your Board ID is " + str(uuidOne) + "\n")
+
+
+def after_upload(source, target, env):
+    print("\nCleaning Workspace...")
+    firmware = open(".pio/build/uno/firmware.hex")
+    firmware_contents = firmware.readlines()
+
+    if firmware_contents[len(firmware_contents) - 35].startswith(":107DF000"):
+        firmware_contents.pop(len(firmware_contents) - 35)
+    else:
+        sys.exit(
+            "Something unexpected happened with the script at some point. Please clean the project and try again!")
+
+    firmware = open(".pio/build/uno/firmware.hex", "w")
+    firmware.writelines(firmware_contents)
+    print("Success!")
 
 
 env.AddPreAction("upload", before_upload)
+env.AddPostAction("upload", after_upload)
 env.AddPostAction("buildprog", after_build)
