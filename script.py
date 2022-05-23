@@ -7,7 +7,7 @@ def after_build(source, target, env):
     bootloader = open("bootloader.hex")
     bootloader_contents = bootloader.readlines()
 
-    firmware = open(".pio/build/uno/firmware.hex")
+    firmware = open(".pio/build/AVR_ISP_w_Bootloader/firmware.hex")
     firmware_contents = firmware.readlines()
 
     if (len(firmware_contents) > 2015):
@@ -22,7 +22,7 @@ def after_build(source, target, env):
     for i in bootloader_contents:
         firmware_contents.append(i)
 
-    firmware = open(".pio/build/uno/firmware.hex", "w")
+    firmware = open(".pio/build/AVR_ISP_w_Bootloader/firmware.hex", "w")
     firmware.writelines(firmware_contents)
 
     print("Bootloader Merged.\n")
@@ -33,7 +33,7 @@ def before_upload(source, target, env):
 
     uuidOne = uuid.uuid1()
 
-    firmware = open(".pio/build/uno/firmware.hex")
+    firmware = open(".pio/build/AVR_ISP_w_Bootloader/firmware.hex")
     firmware_contents = firmware.readlines()
 
     record_block = "107DF000" + uuidOne.hex
@@ -56,14 +56,14 @@ def before_upload(source, target, env):
 
     firmware_contents.insert(len(firmware_contents) - 34, full_record_block)
 
-    firmware = open(".pio/build/uno/firmware.hex", "w")
+    firmware = open(".pio/build/AVR_ISP_w_Bootloader/firmware.hex", "w")
     firmware.writelines(firmware_contents)
     print("Success! Your Board ID is " + str(uuidOne) + "\n")
 
 
 def after_upload(source, target, env):
     print("\nCleaning Workspace...")
-    firmware = open(".pio/build/uno/firmware.hex")
+    firmware = open(".pio/build/AVR_ISP_w_Bootloader/firmware.hex")
     firmware_contents = firmware.readlines()
 
     if firmware_contents[len(firmware_contents) - 35].startswith(":107DF000"):
@@ -72,7 +72,7 @@ def after_upload(source, target, env):
         sys.exit(
             "Something unexpected happened with the script at some point. Please clean the project and try again!")
 
-    firmware = open(".pio/build/uno/firmware.hex", "w")
+    firmware = open(".pio/build/AVR_ISP_w_Bootloader/firmware.hex", "w")
     firmware.writelines(firmware_contents)
     print("Success!")
 
