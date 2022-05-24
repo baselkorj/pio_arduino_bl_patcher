@@ -15,7 +15,7 @@ def after_build(source, target, env):
     firmware = open(".pio/build/" + env.Dictionary('PIOENV') + "/firmware.hex")
     firmware_contents = firmware.readlines()
 
-    if (len(firmware_contents) > 2015):
+    if (len(firmware_contents) > 2014):
         sys.exit("Flash Memory is Full, No Space Left for UUID and Bootloader!")
 
     firmware_contents.insert(0, ":020000040000FA\n")
@@ -35,7 +35,26 @@ def after_build(source, target, env):
 
 
 def before_upload(source, target, env):
-    print("\nGenerating UUID & Calculating Checksums...")
+
+    firmware = open(".pio/build/" + env.Dictionary('PIOENV') + "/firmware.hex")
+    firmware_contents = firmware.readlines()
+
+    bootloader = open("bootloader.hex")
+    bootloader_contents = bootloader.readlines()
+
+    y = len(firmware_contents)
+
+    print("\nChecking Built File for Bootloader...")
+    for i in reversed(bootloader_contents):
+        if (firmware_contents[y - 1] != i):
+            after_build(source, target, env)
+            firmware = open(
+                ".pio/build/" + env.Dictionary('PIOENV') + "/firmware.hex")
+            firmware_contents = firmware.readlines()
+            break
+        y -= 1
+
+    print("Generating UUID & Calculating Checksums...")
 
     uuidOne = uuid.uuid1()
 
