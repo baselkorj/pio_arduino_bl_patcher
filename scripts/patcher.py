@@ -6,7 +6,7 @@ Import("env")
 
 
 def after_build(source, target, env):
-    bootloader = open("bootloader.hex")
+    bootloader = open("scripts/bootloader.hex")
     bootloader_contents = bootloader.readlines()
 
     shutil.copy(".pio/build/" + env.Dictionary('PIOENV') + "/firmware.hex",
@@ -39,7 +39,7 @@ def before_upload(source, target, env):
     firmware = open(".pio/build/" + env.Dictionary('PIOENV') + "/firmware.hex")
     firmware_contents = firmware.readlines()
 
-    bootloader = open("bootloader.hex")
+    bootloader = open("scripts/bootloader.hex")
     bootloader_contents = bootloader.readlines()
 
     y = len(firmware_contents)
