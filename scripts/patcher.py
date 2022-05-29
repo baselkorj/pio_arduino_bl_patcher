@@ -32,7 +32,6 @@ def merge_bl(source, target, env):
     answer = askyesno(title='Confirmation',
                       message='Add Bootloader to Firmware?')
     if answer:
-        install_packages()
         bootloader = open('scripts/bootloader.hex')
         bootloader_contents = bootloader.readlines()
 
@@ -97,16 +96,7 @@ def set_id(source, target, env):
         if os.path.exists('scripts/.temp'):
             new_product_lot = open('scripts/.temp', 'r').read()
         else:
-            j = 1
-
-            if products != None:
-                while True:
-                    for i in products:
-                        if i['name'] == pcb_model + '_PCB_' + pcb_version + '_' + f'{j:06d}':
-                            j += 1
-                        else:
-                            break
-                    break
+            j = int(products[len(products) - 1]['name'][-6:]) + 1
 
             new_product_lot = pcb_model + '_PCB_' + \
                 pcb_version + '_' + f'{j:06d}'
