@@ -12,13 +12,10 @@ Import('env')
 
 flash_id = False
 
-# Hotbox_Mini ---> HBM
-# Hotbox_V2   ---> HB2
-# Warif       ---> WRF | 1672
-product_id = 1672
-pcb_model = 'WRF'
-pcb_version = '1.1'
-fw_version = '1.3'
+product_id = 9999
+pcb_model = 'XXX'
+pcb_version = '1.0'
+fw_version = '1.0'
 
 
 def install_packages():

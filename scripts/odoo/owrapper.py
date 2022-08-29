@@ -3,15 +3,15 @@ import os
 from getpass import getpass
 from datetime import datetime
 
-_url = 'odoodev.sulaimanhabsi.com'
-_db = 'aphcarios'
-_user = ""
-_pwd = ""
+_url = 'ODOO_URL'
+_db = 'ODOO_DB'
+_user = 'USERNAME'
+_pwd = 'PASSWORD'
 
 _odoo = None
 
 
-def setCredentials(server='odoodev.sulaimanhabsi.com', user=_user, password=_pwd):
+def setCredentials(server=_url, user=_user, password=_pwd):
     global _user, _pwd, _url
     _user = user
     _url = server
