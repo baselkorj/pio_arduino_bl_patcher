@@ -10,8 +10,10 @@ import odoo.owrapper as odoo
 
 Import('env')
 
+# Set to True if you want to flash the generated board ID in flash
 flash_id = False
 
+# Meta Data
 product_id = 9999
 pcb_model = 'XXX'
 pcb_version = '1.0'
